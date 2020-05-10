@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Smoke">
+
+  <title>Trans Manage Page</title>
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/modern-business.css}" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav th:replace="fragment::nav"></nav>
+<!-- /.Navigation -->
+
+<!-- Page Content -->
+<div class="container">
+
+  <div class="row mt-5">
+
+  <!--    侧边栏-->
+  <div class="col-2 pt-5" style="margin-bottom: 500px">
+    <div class="list-group">
+      <a href="/consultant/task" class="list-group-item list-group-item-action">车检任务</a>
+      <a href="#" class="list-group-item list-group-item-action active">交易管理</a>
+    </div>
+  </div>
+
+  <!--    内容-->
+  <div class="col-10">
+    <h2 class="border-bottom mb-5">交易管理
+      <a class="ml-5 btn-link text-decoration-none" style="font-size: 1rem" href="/consultant/manage">未完成</a>
+      <a class="ml-5 btn-link text-decoration-none" style="font-size: 1rem" href="/consultant/manage/finished">已完成
+      </a></h2>
+
+    <table class="table table-bordered table-striped table-hover ml-2 mr-2">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">交易编号</th>
+        <th scope="col">看车地址</th>
+        <th scope="col">看车日期</th>
+        <th scope="col">车主电话</th>
+        <th scope="col">预约者电话</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="transManage:${transManageList}">
+        <td><a th:text="${transManage.transId()}" th:href="@{'/car/' + ${transManage.transId()}}"></a>201</td>
+        <td th:text="${transManage.address()}">地址</td>
+        <td th:text="${transManage.meetDate()}">2020-05-01</td>
+        <td th:text="${transManage.ownerPhone()}">18812345678</td>
+        <td th:text="${transManage.bookerPhone()}">18812345678</td>
+        <td><a class="btn-link btn-outline-secondary"
+               th:href="@{/consultant/reservation/delete(trans_id=${transManage.transId()},booker_id=${transManage.bookerId()})}"
+               th:classappend="${transManage.status()!=1}?'disabled'">取消预约
+        </a></td>
+        <td>
+          <a class="btn-link btn-outline-secondary"
+             th:href="@{/consultant/reservation/confirm(trans_id=${transManage.transId()},booker_id=${transManage.bookerId()})}"
+             th:if="${#strings.isEmpty(transManage.address())}">确认预约
+          </a>
+          <a class="btn-link btn-outline-secondary disabled"
+             th:unless="${#strings.isEmpty(transManage.address())}">预约已确认
+          </a>
+        </td>
+        <td><a class="btn-link btn-outline-secondary"
+               th:href="@{/consultant/upload-contract(trans_id=${transManage.transId()},booker_id=${transManage.bookerId()})}"
+               th:classappend="${transManage.status()!=1}?'disabled'">上传交易合同
+        </a></td>
+        <td><a class="btn-link btn-outline-secondary"
+               th:href="@{/consultant/transfer/confirm(trans_id=${transManage.transId()})}"
+               th:classappend="${transManage.status()!=2}?'disabled'">确认过户
+        </a></td>
+      </tr>
+      </tbody>
+    </table>
+
+
+  </div>
+  <!--    /内容-->
+
+  </div>
+  <!--  /.row -->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer th:replace="fragment::footer"></footer>
+<!-- /.Footer -->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>

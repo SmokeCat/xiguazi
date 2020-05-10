@@ -1,0 +1,45 @@
+.nav-left-container {
+    background-color: #1c2b36;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 220px;
+    height: 100%;
+}
+
+.nav-left-container li a {
+    font-size: 14px;
+    box-sizing: border-box;
+    cursor: pointer;
+    position: relative;
+    font-weight: 600;
+    padding: 15px 20px 15px 25px;
+    display: block;
+    color: #869fb1;
+}
+
+.nav-left-container .active {
+    border-left: 4px solid #19a9d5;
+}
+
+.nav-left-container li:hover {
+    background-color: #131e26;
+}
+
+.nav-left-container .active>a {
+    color: #ffffff;
+}
+
+.nav-left-container-small li a {
+    font-size: 12px;
+    padding: 7px 15px 7px 52px;
+}
+
+.nav-left-container-small {
+    display: none;
+}
+
+
+/* .active .nav-left-container-small {
+    display: block;
+} */

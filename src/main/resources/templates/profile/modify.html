@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Smoke">
+
+  <title>Profile Page</title>
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/modern-business.css}" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav th:replace="fragment::nav"></nav>
+<!-- /.Navigation -->
+
+<!-- Page Content -->
+<div class="container">
+
+  <!--  -->
+  <div class="row mt-5">
+    <!--    侧边栏-->
+    <div class="col-3" style="margin-bottom: 300px">
+      <div class="list-group">
+        <div class="list-group-item text-center">
+          <img src="/images/user.png" class="mb-1" style="height: 100px; width: 100px">
+          <p>
+            个人中心
+          </p>
+          <p>
+            手机号：
+            <span th:text="${phone}"></span>
+          </p>
+        </div>
+        <a href="/profile/userinfo" class="list-group-item list-group-item-action active">个人信息</a>
+        <a href="/profile/favourite" class="list-group-item list-group-item-action">收藏车辆</a>
+        <a href="/profile/trans" class="list-group-item list-group-item-action">我的交易</a>
+      </div>
+    </div>
+
+    <!--    内容-->
+    <div class="col-9">
+      <h2 class="border-bottom mb-5">修改信息</h2>
+
+      <div class="mt-5">
+        <form th:action="@{/profile/userinfo/modify}" method="post">
+          <div class="form-group">
+            <label for="inputUserName">用户名</label>
+            <input type="text" class="form-control" id="inputUserName" name="userName" th:value="${user.userName()}">
+          </div>
+          <div class="form-group">
+            <label >性别</label>
+            <div class="form-check-inline">
+              <input class="form-check-input" type="radio" name="gender" id="inputGenderMale" value="1"
+                     th:checked="${user.gender()==1}">
+              <label class="form-check-label" for="inputGenderMale">
+                男
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <input class="form-check-input" type="radio" name="gender" id="inputGenderFemale" value="0"
+                     th:checked="${user.gender()==0}">
+              <label class="form-check-label" for="inputGenderFemale">
+                女
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail">邮箱</label>
+            <input type="email" class="form-control" id="inputEmail" name="email" th:value="${user.email()}"
+                   placeholder="请输入邮箱">
+          </div>
+          <div class="form-group">
+            <label for="inputAddress">地址</label>
+            <input type="text" class="form-control" id="inputAddress" name="address" th:value="${user.address()}"
+                   placeholder="请输入地址">
+          </div>
+          <input type="submit" class="btn btn-primary">
+        </form>
+      </div>
+    </div>
+
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer th:replace="fragment::footer"></footer>
+<!-- /.Footer -->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>

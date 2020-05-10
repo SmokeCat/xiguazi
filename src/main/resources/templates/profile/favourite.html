@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Smoke">
+
+  <title>Profile Page</title>
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/modern-business.css}" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav th:replace="fragment::nav"></nav>
+<!-- /.Navigation -->
+
+<!-- Page Content -->
+<div class="container">
+
+  <!--  -->
+  <div class="row mt-5">
+
+    <!--    侧边栏-->
+    <div class="col-3" style="margin-bottom: 300px">
+      <div class="list-group">
+        <div class="list-group-item text-center">
+          <img src="/images/user.png" class="mb-1" style="height: 100px; width: 100px">
+          <p>
+            个人中心
+          </p>
+          <p>
+            手机号：
+            <span th:text="${phone}"></span>
+          </p>
+        </div>
+        <a href="/profile/userinfo" class="list-group-item list-group-item-action">个人信息</a>
+        <a href="#" class="list-group-item list-group-item-action active">收藏车辆</a>
+        <a href="/profile/trans/sell" class="list-group-item list-group-item-action">我的交易</a>
+      </div>
+    </div>
+
+    <!--    内容-->
+    <div class="col-9">
+      <h2 class="border-bottom mb-5">我的收藏</h2>
+
+      <ul class="list-unstyled mt-5">
+        <li class="media text-muted border-bottom mt-1" th:if="${favourites.size()>0}"
+            th:each="favourite:${favourites}">
+          <img class="mr-3" th:src="@{${'/images/carpic/'+favourite.carPicture()}}"
+               alt="Generic"
+               style="width: 84px; height: 64px">
+          <div class="media-body">
+            <a class="btn btn-outline-info text-info float-right"
+               th:href="@{${'/profile/favourite/remove/'+favourite.transId()}}">
+              取消收藏</a>
+            <a class="h5 mt-0 mb-1 text-truncate text-secondary"
+               th:href="@{${favourite.isInvalid()?'#':'/car/'+favourite.transId()}}"
+               th:classappend="${favourite.isInvalid()}?'btn disabled'"
+               th:text="${favourite.title()}">
+              Car Title</a>
+            <div>
+              <span th:text="${favourite.price()}">price</span>
+              <span> 元</span>
+              <span th:if="${favourite.isInvalid()}" class="text-danger border">已失效</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer th:replace="fragment::footer"></footer>
+<!-- /.Footer -->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>

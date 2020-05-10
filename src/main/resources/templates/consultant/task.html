@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Smoke">
+
+  <title>Detection Task Page</title>
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/modern-business.css}" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav th:replace="fragment::nav"></nav>
+<!-- /.Navigation -->
+
+<!-- Page Content -->
+<div class="container">
+
+  <div class="row mt-5">
+    <!--    侧边栏-->
+    <div class="col-2 pt-5" style="margin-bottom: 500px">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">车检任务</a>
+        <a href="/consultant/manage" class="list-group-item list-group-item-action">交易管理</a>
+      </div>
+    </div>
+    <!--    /侧边栏-->
+
+    <!--    内容-->
+    <div class="col-10">
+      <h2 class="border-bottom mb-5">验车任务</h2>
+
+      <table class="table table-bordered table-striped table-hover ml-2 mr-2">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">交易编号</th>
+          <th scope="col">车辆信息</th>
+          <th scope="col">车检日期</th>
+          <th scope="col">车检地址</th>
+          <th scope="col">车主电话</th>
+<!--          <th scope="col">备忘录</th>-->
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="detectionTask:${detectionTaskList}">
+          <td th:text="${detectionTask.transId()}">201</td>
+          <td th:text="${detectionTask.title()}"></td>
+          <td th:text="${detectionTask.meetDate()}">2020-05-01</td>
+          <td th:text="${detectionTask.address()}">苏州市吴中区</td>
+          <td th:text="${detectionTask.ownerPhone()}">18812345678</td>
+<!--          <td th:text="${detectionTask.note()}"></td>-->
+          <td><a class="btn-link btn-outline-secondary"
+                 th:href="@{'/consultant/detection-result/add/'+${detectionTask.transId()}}">提交检测结果
+          </a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--    /内容-->
+
+
+  </div>
+  <!--  /.row -->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer th:replace="fragment::footer"></footer>
+<!-- /.Footer -->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>

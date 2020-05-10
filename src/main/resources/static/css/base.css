@@ -1,0 +1,134 @@
+/*(1)清除默认样式*/
+
+html,
+body,
+ul,
+li,
+ol,
+dl,
+dd,
+dt,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+form,
+fieldset,
+legend,
+img,
+input {
+    margin: 0;
+    padding: 0;
+}
+
+fieldset,
+img,
+input,
+button {
+    border: 0 none;
+    padding: 0;
+    margin: 0;
+    outline-style: none;
+}
+
+
+/*去掉input等聚焦时的蓝色边框*/
+
+ul,
+li,
+ol {
+    list-style: none;
+}
+
+select,
+input {
+    vertical-align: middle;
+}
+
+
+/*select, input, textarea { font-size:12px; margin:0; }*/
+
+textarea {
+    resize: none;
+}
+
+
+/*防止拖动*/
+
+img {
+    border: 0;
+    vertical-align: middle;
+}
+
+a,
+a:hover,
+a:link,
+a:active,
+a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
+    font-size: 1em;
+}
+
+
+/*设置h标签的大小，设置跟父亲一样大的字体font-size:100%;*/
+
+s,
+i,
+em {
+    font-style: normal;
+    text-decoration: none;
+}
+
+.fl {
+    float: left;
+}
+
+
+/*只要元素需要右浮动就给元素添加一个class名为fr  */
+
+.fr {
+    float: right;
+}
+
+.ac {
+    text-align: center;
+}
+
+.f12 {
+    font-size: 12px;
+}
+
+.f14 {
+    font-size: 14px;
+}
+
+.f16 {
+    font-size: 16px;
+}
+
+ul,
+li,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ol,
+p {
+    box-sizing: border-box;
+}

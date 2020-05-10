@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Smoke">
+
+  <title>Profile Page</title>
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/modern-business.css}" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav th:replace="fragment::nav"></nav>
+<!-- /.Navigation -->
+
+<!-- Page Content -->
+<div class="container">
+
+  <!--  -->
+  <div class="row mt-5">
+    <!--    侧边栏-->
+    <div class="col-3" style="margin-bottom: 300px">
+      <div class="list-group">
+        <div class="list-group-item text-center">
+          <img src="/images/user.png" class="mb-1" style="height: 100px; width: 100px">
+          <p>
+            个人中心
+          </p>
+          <p>
+            手机号：
+            <span th:text="${phone}"></span>
+          </p>
+        </div>
+        <a href="#" class="list-group-item list-group-item-action active">个人信息</a>
+        <a href="/profile/favourite" class="list-group-item list-group-item-action">收藏车辆</a>
+        <a href="/profile/trans/sell" class="list-group-item list-group-item-action">我的交易</a>
+      </div>
+    </div>
+
+    <!--    内容-->
+    <div class="col-9">
+      <h2 class="border-bottom mb-5">个人信息
+        <a class="ml-5 text-decoration-none" style="font-size: 1rem" href="/profile/userinfo/modify">修改信息</a>
+        <a class="ml-5 text-decoration-none" style="font-size: 1rem" href="/profile/userinfo/modify/password">修改密码</a>
+      </h2>
+
+      <div class="container mt-5" style="font-size: 1.25rem">
+        <div class="row mb-2 mt-2">
+          <span class="col-2 offset-1">用户名</span>
+          <span class="col-8" th:text="${user.userName()==null or user.userName().isEmpty()}?'未设置':${user.userName()}">未设置</span>
+          <div>
+          </div>
+        </div>
+        <div class="row mb-2 mt-2">
+          <span class="col-2 offset-1">性别</span>
+          <span class="col-8" th:if="${user.gender()==null}" text="未设置">未设置</span>
+          <span class="col-8" th:if="${user.gender()!=null}"
+                th:text="${user.gender()==1}?'男':'女'">未设置</span>
+          <div>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <span class="col-2 offset-1">邮箱</span>
+          <span class="col-8" th:text="${user.email()==null or user.email().isEmpty()}?'未设置':${user.email()}">未设置</span>
+        </div>
+        <div class="row mb-2">
+          <span class="col-2 offset-1">地址</span>
+          <span class="col-8" th:text="${user.address()==null or user.address().isEmpty()}?'未设置':${user.address()}">未设置</span>
+        </div>
+        <div class="row mb-2">
+          <span class="col-2 offset-1">角色</span>
+          <span class="col-8" th:text="${user.roleName()}">普通用户</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer th:replace="fragment::footer"></footer>
+<!-- /.Footer -->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>

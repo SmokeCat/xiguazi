@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>XiGuaZi Used Car</title>
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/modern-business.css}" rel="stylesheet">
+</head>
+
+<body onload="document.f.phone.focus();">
+
+<!-- Navigation -->
+<nav th:replace="fragment::nav"></nav>
+<!-- /.Navigation -->
+
+<div>
+  <div class="container mt-5">
+
+    <div class="row" style="margin-top: 3rem; margin-bottom: 6rem;">
+      <h1 class="col-12 text-center mt-5 border-bottom">二手机动车辆交易管理系统</h1>
+    </div>
+
+    <div class="row" style="margin-top: 6rem; margin-bottom: 15rem;">
+      <!--      登陆表单-->
+      <div class="col-6 offset-1 pt-4 pb-4 pl-5 pr-5 bg-light align-content-center rounded-left"
+           style="background-color: #b1b1b1">
+        <h2>登陆</h2>
+        <form name="f" th:action="@{/login}" method="post">
+          <div class="form-group">
+            <label for="loginFormPhone">手机号</label>
+            <input type="tel" class="form-control" id="loginFormPhone" name="phone">
+          </div>
+          <div class="form-group">
+            <label for="loginFormPassword">密码</label>
+            <input type="password" class="form-control" id="loginFormPassword" name="password">
+          </div>
+          <div class="form-group">
+            <p th:if="${param.error}" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></p>
+            <input type="submit" name="submit" value="登陆">
+          </div>
+        </form>
+      </div>
+      <!--      注册链接-->
+      <div class="col-4 pt-4 pb-4 bg-secondary text-white rounded-right">
+        <h2>注册</h2>
+        <form class="form" name="r" th:action="@{/register}" method="post">
+          <div class="form-group">
+            <label for="loginFormPhone">手机号</label>
+            <input type="tel" class="form-control" id="registerFormPhone" name="phone">
+          </div>
+          <div class="form-group">
+            <label for="loginFormPassword">密码</label>
+            <input type="password" class="form-control" id="registerFormPassword" name="password">
+          </div>
+          <div class="form-group text-right">
+            <input type="submit" name="submit" value="注册">
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Footer -->
+<footer th:replace="fragment::footer"></footer>
+<!-- /.Footer -->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>

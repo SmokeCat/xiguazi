@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Smoke">
+
+  <title>Detection Result Form Page</title>
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/modern-business.css}" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav th:replace="fragment::nav"></nav>
+<!-- /.Navigation -->
+
+<!-- Page Content -->
+<div class="container">
+
+  <div class="row">
+
+    <!--    内容-->
+    <div class="col-10">
+      <h2 class="border-bottom mb-5 mt-5">车检结果</h2>
+
+      <form th:action="@{/consultant/post-result}" th:object="${detectionForm}" method="post">
+        <div class="form-group row mb-2">
+          <label class="col-2 col-form-label">交易编号</label>
+          <!--            <span id="carId">202</span>-->
+          <div class="col-4">
+            <input th:field="*{transactionInfo.transId}" name="transId" type="text" class="form-control-plaintext"
+                   readonly
+                   value="202">
+            <input th:field="*{carInfo.carId}" name="carId" type="text" class="form-control-plaintext" readonly
+                   value="202" hidden="">
+          </div>
+
+          <label for="inputOwnerId" class="col-2 col-form-label">车主编号</label>
+          <!--            <span id="carId">202</span>-->
+          <div class="col-4">
+            <input id="inputOwnerId" th:field="*{carInfo.ownerId}" name="ownerId" type="text"
+                   class="form-control-plaintext" readonly value="10004">
+          </div>
+        </div>
+
+        <div class="form-group row mb-2">
+          <label for="inputConsultantId" class="col-2 col-form-label">车检员编号</label>
+          <div class="col-4">
+            <input id="inputConsultantId" th:field="*{consultantId}" name="consultantId" type="text"
+                   class="form-control-plaintext" readonly value="10">
+          </div>
+
+          <label for="inputOwnerPhone" class="col-2 col-form-label">车主手机号</label>
+          <div class="col-4">
+            <input id="inputOwnerPhone" th:field="*{ownerPhone}" name="ownerPhone" type="text"
+                   class="form-control-plaintext"
+                   readonly
+                   value="12300010004">
+          </div>
+        </div>
+
+        <h2 class="border-bottom col-12 mb-4">交易信息</h2>
+        <!--        transactionInfo-->
+        <div class="form-row">
+          <div class="form-group col-4">
+            <label for="inputCity">城市</label>
+            <input id="inputCity" type="text" th:field="*{transactionInfo.city}" name="city"
+                   class="form-control" readonly>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputAddress">看车地址</label>
+            <input id="inputAddress" type="text" th:field="*{transactionInfo.address}" name="city"
+                   class="form-control" required>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputPrice">估价</label>
+            <input id="inputPrice" type="number" th:field="*{transactionInfo.price}" name="price"
+                   class="form-control" required>
+          </div>
+        </div>
+        <!--        /transactionInfo /.form-row -->
+
+        <h2 class="border-bottom col-12 mb-4">基本信息</h2>
+        <!--        carInfo-->
+        <div class="form-row">
+          <div class="form-group col-4">
+            <label for="inputMake">厂商</label>
+            <select id="inputMake" th:field="*{carInfo.make}" name="make" class="custom-select" required>
+              <option th:each="make: ${carMakeList}" th:value="${make}" th:text="${make}">大众</option>
+            </select>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputModel">型号</label>
+            <input id="inputModel" type="text" th:field="*{carInfo.model}" name="model" class="form-control" required>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputModelYear">款式年代</label>
+            <input id="inputModelYear" type="text" th:field="*{carInfo.modelYear}" name="modelYear" class="form-control"
+                   required>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputLicensePlateYear">上牌时间</label>
+            <input id="inputLicensePlateYear" type="text" th:field="*{carInfo.licensePlateYear}" name="licensePlateYear"
+                   class="form-control" required>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputMileage">行驶里程（公里）</label>
+            <input id="inputMileage" type="number" th:field="*{carInfo.mileage}" name="mileage" class="form-control"
+                   required>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputIsAutomaticTransmission">自动挡</label>
+            <select id="inputIsAutomaticTransmission" th:field="*{carInfo.isAutomaticTransmission}"
+                    name="isAutomaticTransmission" class="custom-select" required>
+              <option value="true">是</option>
+              <option value="false">否</option>
+            </select>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputGearbox">变速箱</label>
+            <input id="inputGearbox" type="text" th:field="*{carInfo.gearbox}" name="gearbox" class="form-control"
+                   required>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputWheelbase">轴距（mm）</label>
+            <input id="inputWheelbase" type="number" th:field="*{carInfo.wheelbase}" name="wheelbase"
+                   class="form-control" required>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputEngineDisplacement">发动机排量（L）</label>
+            <input id="inputEngineDisplacement" type="number" step="0.1" th:field="*{carInfo.engineDisplacement}"
+                   name="engineDisplacement" class="form-control" required>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputHorsepower">发动机马力（Ps）</label>
+            <input id="inputHorsepower" type="number" th:field="*{carInfo.horsepower}" name="horsepower"
+                   class="form-control" required>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputCylinder">气缸</label>
+            <input id="inputCylinder" type="text" th:field="*{carInfo.cylinder}" name="cylinder" class="form-control"
+                   required>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputAspirateMode">进气形式</label>
+            <input id="inputAspirateMode" type="text" th:field="*{carInfo.aspirateMode}" name="aspirateMode"
+                   class="form-control" required>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputFuelType">燃料类型</label>
+            <input id="inputFuelType" type="text" th:field="*{carInfo.fuelType}" name="fuelType" class="form-control"
+                   required>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputFuelMarking">燃油标号</label>
+            <input id="inputFuelMarking" type="text" th:field="*{carInfo.fuelMarking}" maxlength="2" name="fuelMarking"
+                   class="form-control" required>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputDrivetrainType">传动类型</label>
+            <input id="inputDrivetrainType" type="text" th:field="*{carInfo.drivetrainType}" name="drivetrainType"
+                   class="form-control" required>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputPowerSteering">动力转向</label>
+            <input id="inputPowerSteering" type="text" th:field="*{carInfo.powerSteering}" name="powerSteering"
+                   class="form-control" required>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputBrakeType">制动类型</label>
+            <input id="inputBrakeType" type="text" th:field="*{carInfo.brakeType}" name="brakeType" class="form-control"
+                   required>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputFrontSuspension">前悬挂类型</label>
+            <input id="inputFrontSuspension" type="text" th:field="*{carInfo.frontSuspension}" name="frontSuspension"
+                   class="form-control" required>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="inputRearSuspension">后悬挂类型</label>
+            <input id="inputRearSuspension" type="text" th:field="*{carInfo.rearSuspension}" name="rearSuspension"
+                   class="form-control" required>
+          </div>
+        </div>
+        <!--        /carInfo /.form-row -->
+
+        <h2 class="border-bottom col-12 mb-4">车检项目</h2>
+        <div class="row">
+          <div class="col-6">
+            <table class="table table-bordered table-sm">
+              <thead class="thead-light">
+              <tr>
+                <th>检测项目</th>
+                <th>检测结果</th>
+                <th>描述</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="result, stat: *{detectionResultList}">
+                <td th:text="${detectionItemMap.get(result.itemId).content()}">
+                  右D柱覆盖面
+                </td>
+                <td>
+                  <input type="hidden" th:field="*{detectionResultList[__${stat.index}__].itemId}">
+                  <select th:field="*{detectionResultList[__${stat.index}__].problemLevel}"
+                          class="custom-select form-control-sm">
+                    <option value="0">正常</option>
+                    <option value="1">黄标</option>
+                  </select>
+                </td>
+                <td>
+                  <input type="text" th:field="*{detectionResultList[__${stat.index}__].problemDescription}">
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!--        /.row-->
+        <input type="submit" value="提交">
+      </form>
+    </div>
+
+  </div>
+  <!--   /.row-->
+
+</div>
+<!-- /.container -->
+
+
+<!-- Footer -->
+<footer th:replace="fragment::footer"></footer>
+<!-- /.Footer -->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+<script>
+    'use strict'
+    $("form").submit(function () {
+        $(this).find("select[name$='problemLevel']").each(function() {
+            if (this.value == '0') {
+                $(this).parent().parent().remove();
+            }
+        });
+    })
+</script>
+</html>

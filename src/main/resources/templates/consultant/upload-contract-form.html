@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Smoke">
+
+  <title>Upload Contract Page</title>
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/modern-business.css}" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav th:replace="fragment::nav"></nav>
+<!-- /.Navigation -->
+
+<!-- Page Content -->
+<div class="container">
+
+  <div class="row">
+
+    <!--    内容-->
+    <div class="col-10" style="margin-bottom: 10rem;">
+      <h2 class="border-bottom mb-5 mt-5">上传合同</h2>
+
+      <form th:action="@{/consultant/post-contract(trans_id=${transId}, booker_id=${bookerId})}" method="post"
+            enctype="multipart/form-data">
+        <div class="input-group mb-3 row">
+          <div class="input-group-prepend col-2 offset-2">
+            <span class="input-group-text" style="width: 100%">合同</span>
+          </div>
+          <div class="custom-file col-6">
+            <input type="file" class="custom-file-input" id="inputContract" name="file">
+            <label class="custom-file-label" for="inputContract">Choose file</label>
+          </div>
+        </div>
+        <input type="submit" value="提交">
+      </form>
+
+    </div>
+
+  </div>
+  <!--   /.row-->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer th:replace="fragment::footer"></footer>
+<!-- /.Footer -->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+
+<script>
+    $('input[type="file"]').on('change',function(){
+        //get the file name
+        let fileSplit = $(this).val().split("\\");
+
+        //replace the "Choose a file" label
+        $(this).next('.custom-file-label').html(fileSplit[fileSplit.length-1]);
+    })
+</script>
+</html>

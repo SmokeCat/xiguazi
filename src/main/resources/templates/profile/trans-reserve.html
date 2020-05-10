@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Smoke">
+
+  <title>Reservation List Page</title>
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/modern-business.css}" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav th:replace="fragment::nav"></nav>
+<!-- /.Navigation -->
+
+<!-- Page Content -->
+<div class="container">
+
+  <!-- 卖车表单 -->
+  <div class="row mt-5">
+
+    <!--    侧边栏-->
+    <div class="col-3" style="margin-bottom: 300px">
+      <div class="list-group">
+        <div class="list-group-item text-center">
+          <img src="/images/user.png" class="mb-1" style="height: 100px; width: 100px">
+          <p>
+            个人中心
+          </p>
+          <p>
+            手机号：
+            <span th:text="${phone}"></span>
+          </p>
+        </div>
+        <a href="/profile/userinfo" class="list-group-item list-group-item-action">个人信息</a>
+        <a href="/profile/favourite" class="list-group-item list-group-item-action">收藏车辆</a>
+        <a href="/profile/trans/sell" class="list-group-item list-group-item-action active">我的交易</a>
+      </div>
+    </div>
+
+    <!--    内容-->
+    <div class="col-9">
+      <h2 class="border-bottom mb-5">我的交易
+        <a class="ml-5 btn-link text-decoration-none" style="font-size: 1rem" href="/profile/trans/sell">出售</a>
+        <a class="ml-5 btn-link text-decoration-none" style="font-size: 1rem" href="/profile/trans/buy">购买</a>
+        <a class="ml-5 btn-link text-decoration-none" style="font-size: 1rem" href="#">预定</a></h2>
+
+      <ul class="list-unstyled mt-5">
+        <li class="media text-muted border-bottom mt-1" th:if="${reservationList.size()>0}"
+            th:each="reservation:${reservationList}">
+          <img class="mr-3" th:src="@{${'/images/carpic/'+reservation.carPicture()}}"
+               alt="Generic"
+               style="width: 84px; height: 64px">
+          <div class="media-body">
+            <button class="btn btn-outline-info text-info float-right" type="button" data-toggle="modal"
+                    th:if="${reservation.status()=='1'}" th:data-target="'#reservation'+${reservation.transId()}">
+              预约信息</button>
+            <a class="btn btn-outline-info text-info float-right"
+               th:href="@{/profile/reservation/delete/{transId}(transId=${reservation.transId()})}">
+              删除预约</a>
+            <a class="h5 mt-0 mb-1 text-truncate text-secondary"
+               th:href="@{'/car/' + ${reservation.transId()}}"
+               th:text="${reservation.title()}">
+              Car Title</a>
+            <div>
+              <span th:if="${reservation.status()=='1'}" class="text-danger border mr-2">发布中</span>
+              <span th:unless="${reservation.status()=='1'}" class="text-danger border mr-2">已失效</span>
+              <span th:text="${'创建时间：'+reservation.createTime()}" class="mr-2"></span>
+              <span th:text="${reservation.price()} + ' 元'" class="mr-2">price</span>
+            </div>
+          </div>
+
+
+          <!--模态框-->
+          <div class="modal fade" th:if="${reservation.status()=='1'}"
+               th:id="'reservation'+${reservation.transId()}" tabindex="-1" role="dialog"
+               aria-labelledby="exampleModalLabel"
+               aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">预约信息</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-4 text-right">顾问电话</div>
+                    <div class="col-6" th:text="${reservation.transConsultantPhone()}">顾问电话</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4 text-right">看车地址</div>
+                    <div class="col-6" th:text="${reservation.address()}">看车地址</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4 text-right">看车日期</div>
+                    <div class="col-6" th:text="${reservation.meetDate()}">看车日期</div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer th:replace="fragment::footer"></footer>
+<!-- /.Footer -->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>
