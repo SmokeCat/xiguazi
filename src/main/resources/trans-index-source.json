@@ -1,0 +1,22 @@
+{
+  "mappings": {
+    "properties": {
+      "transId": {"type": "keyword"},
+      "car": {
+        "properties": {
+          "carId": {"type": "keyword"},
+          "make": {"type": "keyword"},
+          "model": {"type": "text"},
+          "modelYear": {"type": "keyword"},
+          "mileage": {"type": "long"},
+          "isAutomaticTransmission": {"type": "boolean"},
+          "engineDisplacement": {"type": "float"}
+        }
+      },
+      "city": {"type": "keyword"},
+      "price": {"type": "long"},
+      "carPicture": {"type": "text"},
+      "createTime": {"type": "date"}
+    }
+  }
+}

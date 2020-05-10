@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Smoke">
+
+  <title>Car Page</title>
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- 字体符号 -->
+  <link th:href="@{/font/css/open-iconic-bootstrap.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/modern-business.css}" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav th:replace="fragment::nav"></nav>
+<!-- /.Navigation -->
+
+<!-- Page Content -->
+<div class="container">
+
+  <!-- 信息概览 -->
+  <div class="row mt-5 mb-1">
+    <!--    车辆图片-->
+    <div class="col-md-6">
+      <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" style="height: 400px">
+        <div class="carousel-inner">
+          <div class="carousel-item" th:each="pic, picStat:${car.carPicture}"
+               th:classappend="${picStat.first}? 'active'">
+            <img th:src="@{'/images/carpic/'+${pic}}" class="d-block w-100" alt="..." style="height:
+                 400px">
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+
+    <!--    右侧-->
+    <div class="col-md-6">
+      <div class="right-content">
+        <h4
+            th:text="${car.carInfo.make+' '+car.carInfo.model+' '+car.city+' '+car.carInfo.modelYear+'款'+' '+car.carInfo.engineDisplacement+'T'}">
+          Single
+          Product Name</h4>
+        <h6><span class="priceUnit">¥ </span><span th:text="${car.price}"></span></h6>
+
+        <div class="container">
+          <div class="row text-center">
+            <div class="card col-md-4 border-0 size">
+              <div class="card-body border-right pt-0 pb-0">
+                <h5 class="card-title" th:text="${car.carInfo.licensePlateYear}">上牌时间</h5>
+                <h6 class="card-subtitle mb-2 text-muted">上牌时间</h6>
+              </div>
+            </div>
+            <div class="card col-md-4 border-0">
+              <div class="card-body border-right pt-0 pb-0">
+                <h5 class="card-title" th:text="${car.carInfo.mileage}">行驶里程</h5>
+                <h6 class="card-subtitle mb-2 text-muted">行驶里程</h6>
+              </div>
+            </div>
+            <div class="card col-md-4 border-0">
+              <div class="card-body pt-0 pb-0">
+                <h5 class="card-title" th:text="${car.carInfo.engineDisplacement + 'T'}">发动机排量</h5>
+                <h6 class="card-subtitle mb-2 text-muted">发动机排量</h6>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="card col-12 mt-3" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title border-bottom">服务保障</h5>
+
+                <div class="row">
+                  <p class="col-6">精致检测</p>
+                  <p class="col-6">过户服务</p>
+                  <p class="col-6">正当车源</p>
+                  <p class="col-6">售后保障</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4" th:if="${car.status==1}">
+            <!-- 预约时间异常警告-->
+            <p class="text-danger col-11 offset-1 text-truncate" th:if="${false}">输入时间无法预约!</p>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-outline-primary col-3" data-toggle="modal"
+                    data-target="#reservationForm">预约看车
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="reservationForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">我要预约<span class="text-muted card-subtitle font"
+                                                      style="font-size: 8px; margin-left: 5px">预约后请等待工作人员回电
+                        </span></h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form th:action="@{/reservation/{trans-id}(trans-id=${car.transId})}" id="reservation-form">
+                      <div class="form-group">
+                        <label for="reservation-type" class="col-form-label">看车方式:</label>
+                        <input type="text" class="form-control" id="reservation-type" value="上门看车" readonly>
+                      </div>
+                      <div class="form-group">
+                        <label for="message-text" class="col-form-label">预约时间:</label>
+                        <input type="date" class="form-control" id="message-text" name="meetDate">
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">退出</button>
+                    <button th:unless="${car.isReserved}" type="button" class="btn btn-primary"
+                            onclick="fsubmit(document.getElementById('reservation-form'))">确认
+                    </button>
+                    <button th:if="${car.isReserved}" type="button" class="btn btn-primary disabled">已在预约中</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary col-3 offset-1" data-toggle="modal"
+                    data-target="#ownerPhoneDialog">我要咨询
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="ownerPhoneDialog" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">咨询电话</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body text-center">
+                    <span th:text="${car.consultantPhone}"></span>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary text-right" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <a th:href="@{/car/favourite/add/{transId}(transId=${car.transId})}" class="col-3 offset-1"
+               th:unless="${car.isInFavourite}">
+              <button type="button" class="btn btn-outline-info">添加收藏</button>
+            </a>
+            <a th:href="@{/car/favourite/remove/{transId}(transId=${car.transId})}" class="col-4 offset-1"
+               th:if="${car.isInFavourite}">
+              <button type="button" class="btn btn-outline-warning">已收藏,取消收藏</button>
+            </a>
+          </div>
+          <div class="row mt-4" th:unless="${car.status==1}">
+            <button type="button" class="btn btn-danger col-3 disabled">已下架</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- /.row -->
+
+  <!-- 基本信息 -->
+  <div class="row mt-5">
+    <h2 class="border-bottom col-12 mb-4">车辆基本信息</h2>
+    <!--基本参数-->
+    <div class="col-4  pl-1 pr-1">
+      <table class="table table-bordered text-center table-striped table-sm">
+        <thead class="thead-light">
+        <tr>
+          <th colspan="2">基本参数</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>厂商</td>
+          <td th:text="${car.carInfo.make==null}?'-':${car.carInfo.make}">大众</td>
+        </tr>
+        <tr>
+          <td>车系</td>
+          <td th:text="${car.carInfo.model==null}?'-':${car.carInfo.model}">大众</td>
+        </tr>
+        <tr>
+          <td>变速箱</td>
+          <td th:text="${car.carInfo.gearbox==null}?'-':${car.carInfo.gearbox}">大众</td>
+        </tr>
+        <tr>
+          <td>轴距(mm)</td>
+          <td th:text="${car.carInfo.wheelbase==null}?'-':${car.carInfo.wheelbase}">大众</td>
+        </tr>
+        <tr>
+          <td>-</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>-</td>
+          <td>-</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--发动机参数-->
+    <div class="col-4  pl-1 pr-1">
+      <table class="table table-bordered text-center table-striped table-sm">
+        <thead class="thead-light">
+        <tr>
+          <th colspan="2">发动机参数</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>排量(T)</td>
+          <td th:text="${car.carInfo.engineDisplacement==null}?'-':${car.carInfo.engineDisplacement}">大众</td>
+        </tr>
+        <tr>
+          <td>进气形式</td>
+          <td th:text="${car.carInfo.aspirateMode==null}?'-':${car.carInfo.aspirateMode}">大众</td>
+        </tr>
+        <tr>
+          <td>气缸</td>
+          <td th:text="${car.carInfo.cylinder==null}?'-':${car.carInfo.cylinder}">大众</td>
+        </tr>
+        <tr>
+          <td>最大马力</td>
+          <td th:text="${car.carInfo.horsepower==null}?'-':${car.carInfo.horsepower}">大众</td>
+        </tr>
+        <tr>
+          <td>燃料类型</td>
+          <td th:text="${car.carInfo.fuelType==null}?'-':${car.carInfo.fuelType}">大众</td>
+        </tr>
+        <tr>
+          <td>燃油标号</td>
+          <td th:text="${car.carInfo.fuelMarking==null}?'-':${car.carInfo.fuelMarking}">大众</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--底盘及制动-->
+    <div class="col-4  pl-1 pr-1">
+      <table class="table table-bordered text-center table-striped table-sm">
+        <thead class="thead-light">
+        <tr>
+          <th colspan="2">底盘及制动</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>驱动方式</td>
+          <td th:text="${car.carInfo.drivetrainType==null}?'-':${car.carInfo.drivetrainType}">大众
+          </td>
+        </tr>
+        <tr>
+          <td>助力类型</td>
+          <td th:text="${car.carInfo.powerSteering==null}?'-':${car.carInfo.powerSteering}">大众</td>
+        </tr>
+        <tr>
+          <td>前悬挂类型</td>
+          <td th:text="${car.carInfo.frontSuspension==null}?'-':${car.carInfo.frontSuspension}">大众</td>
+        </tr>
+        <tr>
+          <td>后悬挂类型</td>
+          <td th:text="${car.carInfo.rearSuspension==null}?'-':${car.carInfo.rearSuspension}">大众</td>
+        </tr>
+        <tr>
+          <td>驱车制动类型</td>
+          <td th:text="${car.carInfo.brakeType==null}?'-':${car.carInfo.brakeType}">大众</td>
+        </tr>
+        <tr>
+          <td>-</td>
+          <td>-</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <!-- /.row -->
+
+  <!-- 车检结果 -->
+  <div class="row mt-5">
+    <h2 class="border-bottom col-12 mb-4">车辆检测结果</h2>
+    <div class="col-3 p-0" th:each="detectType:${detectItemMap.keySet()}">
+      <table class="table table-bordered table-sm">
+        <thead class="thead-light">
+        <tr>
+          <th th:text="${detectItemMap.get(detectType).size()+'项'+detectType+'检测'}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item: ${detectItemMap.get(detectType)}">
+          <!--            <td th:text="${item.content()}">-->
+          <td>
+              <span th:if="${car.detectionResults.keySet().contains(item.itemId())}" class="oi oi-warning"
+                    style="color: rgb(255, 180, 0);"></span>
+            <span th:unless="${car.detectionResults.keySet().contains(item.itemId())}" class="oi oi-check"
+                  style="color: rgb(0, 180, 0);"></span>
+            <span th:text="${' '+item.content()}"></span>
+          </td>
+        </tr>
+        </tbody>
+
+      </table>
+    </div>
+
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer th:replace="fragment::footer"></footer>
+<!-- /.Footer -->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+<script language="javascript">
+    function fsubmit(obj) {
+        obj.submit();
+    }
+</script>
+
+<style>
+  .car-info-table-head {
+    background-color: #f5f5f5;
+  }
+</style>
+</html>

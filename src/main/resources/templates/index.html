@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Smoke">
+
+  <title>XiGuaZi Used Car</title>
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/modern-business.css}" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav th:replace="fragment::nav"></nav>
+<!-- /.Navigation -->
+
+<header>
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+      <!-- Slide One - Set the background image for this slide in the line below -->
+      <div class="carousel-item active" style="background-image: url('/images/car-head-1.jpg')">
+        <div class="carousel-caption d-none d-md-block">
+          <h3>放心买车</h3>
+          <p>提供专业检测服务，提供车辆检测结果，价格全网最实惠</p>
+        </div>
+      </div>
+      <!-- Slide Two - Set the background image for this slide in the line below -->
+      <div class="carousel-item" style="background-image: url('/images/car-head-2.jpg')">
+        <div class="carousel-caption d-none d-md-block">
+          <h3>快速卖车</h3>
+          <p>快速预约，上门检测，光速卖车</p>
+        </div>
+      </div>
+      <!-- Slide Three - Set the background image for this slide in the line below -->
+      <div class="carousel-item" style="background-image: url('/images/car-head-3.jpg')">
+        <div class="carousel-caption d-none d-md-block">
+          <h3>流程正规</h3>
+          <p>各项流程透明公正，坚决遵守法律法规</p>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</header>
+
+<!-- Page Content -->
+<div class="container">
+
+  <h1 class="my-4">欢迎使用XiGuaZi二手机动车辆交易信息管理系统</h1>
+
+  <!-- Marketing Icons Section -->
+  <div class="row">
+    <div class="col-lg-4 mb-4">
+      <div class="card h-100">
+        <h4 class="card-header">业务支持</h4>
+        <div class="card-body">
+          <p class="card-text">为消费者提供一个安全、透明、实惠、快捷、方便的二手车交易平台。本平台支持查询、购买、出售二手车辆。</p>
+        </div>
+        <div class="card-footer">
+          <a href="#" class="btn btn-primary disabled">Learn More</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 mb-4">
+      <div class="card h-100">
+        <h4 class="card-header">专业服务</h4>
+        <div class="card-body">
+          <p class="card-text">提供专业车辆检测服务。只需预约售车，即可上门检测，快速发布。</p>
+        </div>
+        <div class="card-footer">
+          <a href="#" class="btn btn-primary disabled">Learn More</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 mb-4">
+      <div class="card h-100">
+        <h4 class="card-header">解决痛点</h4>
+        <div class="card-body">
+          <p class="card-text">从用户角度出发，解决二手车交易过程中的痛点需求，为用户提供一流使用感受。</p>
+        </div>
+        <div class="card-footer">
+          <a href="#" class="btn btn-primary disabled">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer th:replace="fragment::footer"></footer>
+<!-- /.Footer -->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+
+</html>

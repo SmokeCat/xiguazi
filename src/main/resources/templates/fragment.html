@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="UTF-8">
+  <title>Fragment</title>
+</head>
+<body>
+<!-- Navigation -->
+<nav th:fragment="nav" class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="/">XiGuaZi</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/buy}">我要买车</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/sell}">我要卖车</a>
+        </li>
+        <!-- 根据登陆信息显示         -->
+        <li class="nav-item" sec:authorize="isAuthenticated()">
+          <a class="nav-link" th:href="@{/profile}" sec:authentication="name">已登录</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('CONSULTANT')">
+          <a class="nav-link" th:href="@{/consultant}">顾问工作台</a>
+        </li>
+        <li class="nav-item" sec:authorize="isAuthenticated()">
+          <a class="nav-link" th:href="@{/logout}">退出</a>
+        </li>
+        <li class="nav-item" sec:authorize="isAnonymous()">
+          <a class="nav-link" th:href="@{/login}">登陆</a>
+        </li>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- /.Navigation -->
+
+<!-- Footer -->
+<footer th:fragment="footer" class="py-5 bg-dark">
+  <div class="container">
+    <p class="m-0 text-center text-white">Copyright &copy; XiGuaZi Used Car 2020</p>
+  </div>
+</footer>
+<!-- /.Footer -->
+</body>
+</html>

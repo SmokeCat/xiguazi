@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Smoke">
+
+  <title>Search Page</title>
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/modern-business.css}" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav th:replace="fragment::nav"></nav>
+<!-- /.Navigation -->
+
+<!-- Page Content -->
+<div class="container">
+
+  <!-- 筛选条件 -->
+  <div class="row mt-5 border-bottom">
+    <!-- 条件下拉菜单 -->
+    <form th:action="@{${'/buy/'+searchPageVO.indexPage()}}" method="get">
+      <div class="form-row align-items-center">
+        <div class="form-group mb-2 col-auto">
+          <label class="my-1 mr-2" for="cityFormSelect">城市:</label>
+          <select class="custom-select ml-1" id="cityFormSelect" name="city">
+            <option selected value="all">不限</option>
+            <option th:each="item, cityState:${cityMap}" th:value="${cityState.current.key}"
+                    th:text="${cityState.current.value}">南京</option>
+          </select>
+        </div>
+
+        <div class="form-group mb-2 col-auto">
+          <label class="my-1 mr-2" for="makeFormSelect">厂商:</label>
+          <select class="custom-select ml-1" id="makeFormSelect" name="make">
+            <option selected value="all" >不限</option>
+            <option th:each="item, makeState:${makeMap}" th:value="${makeState.current.key}"
+                    th:text="${makeState.current.value}">大众
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group mb-2 col-auto">
+          <label class="my-1 mr-2" for="transmissionFormSelect">变速箱:</label>
+          <select class="custom-select ml-1" id="transmissionFormSelect" name="transmission">
+            <option selected value="all">不限</option>
+            <option value="1">自动挡</option>
+            <option value="0">手动挡</option>
+          </select>
+        </div>
+
+        <div class="form-group mb-2 col-auto">
+          <label class="my-1 mr-2" for="mileageFormSelect">里程:</label>
+          <select class="custom-select ml-1" id="mileageFormSelect" name="mileage">
+            <option selected value="all">不限</option>
+            <option value="0">0-1万公里</option>
+            <option value="1">1万公里-3万公里</option>
+            <option value="2">3万公里-5万公里</option>
+            <option value="3">5万公里-8万公里</option>
+            <option value="4">8万公里以上</option>
+          </select>
+        </div>
+
+        <div class="form-group mb-2 col-auto">
+          <label class="my-1 mr-2" for="enginedisplamentFormSelect">排量:</label>
+          <select class="custom-select ml-1" id="enginedisplamentFormSelect" name="enginedisplament">
+            <option selected value="all">不限</option>
+            <option value="0">0-1.0L</option>
+            <option value="1">1.0-1.6L</option>
+            <option value="2">1.6-2.0L</option>
+            <option value="3">2.0-3.0L</option>
+            <option value="4">3.0-4.0L</option>
+            <option value="5">4.0L以上</option>
+          </select>
+        </div>
+
+        <div class="form-group mb-2 col-auto">
+          <label class="my-1 mr-2" for="priceFormSelect">价格:</label>
+          <select class="custom-select ml-1" id="priceFormSelect" name="price">
+            <option selected value="all">不限</option>
+            <option value="0">0-3万</option>
+            <option value="1">3万-5万</option>
+            <option value="2">5万-7万</option>
+            <option value="3">7万-9万</option>
+            <option value="4">9万-12万</option>
+            <option value="5">12万-16万</option>
+            <option value="6">16万-20万</option>
+            <option value="7">20万以上</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary mb-2 ">搜索</button>
+
+    </form>
+  </div>
+  <!-- /.row -->
+
+  <!-- 结果列表 -->
+  <div class="row mt-3">
+    <div class="card col-md-3 car-card-border" style="width: 18rem;" th:each="trans:${searchPageVO.transList()}">
+      <a th:href="@{${'/car/'+trans.transId}}" class="text-muted text-decoration-none">
+        <img th:src="@{${'/images/carpic/'+trans.carPicture}}" class="card-img-top mt-3" alt="car picture">
+        <div class="card-body">
+          <h5 class="card-title text-truncate "
+              th:text="${trans.car.make+' '+trans.car.model+' '+trans.city+' '+trans.car.modelYear+'款'}">Car
+            title</h5>
+          <p>
+            <span th:text="${trans.car.mileage}"></span>公里 <span>|</span> <span
+              th:text="${trans.car.engineDisplacement}"></span>L
+            <span>|</span> <span th:text="${(trans.car.isAutomaticTransmission==true)?('自动挡'):('手动挡')}"></span>
+          </p>
+          <p>
+            <span th:text="${trans.price}" class="text-danger font-weight-bold"></span><span>元</span>
+          </p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <!-- /.row -->
+
+  <!-- 分页 -->
+  <div class="row mt-3 justify-content-center">
+    <nav aria-label="Page navigation ">
+      <ul class="pagination">
+        <li th:class="${(indexPage==1)?'page-item disabled':'page-item '}">
+          <a class="page-link"
+             th:href="@{/buy/{page}(page=${indexPage -1}, city=${param.city==null?'all':param.city}, make=${param.make==null?'all':param.make}, mileage=${param.mileage==null?'all':param.mileage}, enginedisplament=${param.enginedisplament==null?'all':param.enginedisplament}, transmission=${param.transmission==null?'all':param.transmission})}"
+             aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li th:if="${(indexPage - 3)>=1}" class="page-item"><a
+            th:href="@{/buy/{page}(page=${indexPage -3}, city=${param.city==null?'all':param.city},
+             make=${param.make==null?'all':param.make}, mileage=${param.mileage==null?'all':param.mileage},
+             enginedisplament=${param.enginedisplament==null?'all':param.enginedisplament},
+             transmission=${param.transmission==null?'all':param.transmission})}"
+            th:text="${indexPage -3}" class="page-link">1</a></li>
+        <li th:if="${(indexPage - 2)>=1}" class="page-item"><a
+            th:href="@{/buy/{page}(page=${indexPage -2}, city=${param.city==null?'all':param.city},
+             make=${param.make==null?'all':param.make}, mileage=${param.mileage==null?'all':param.mileage},
+             enginedisplament=${param.enginedisplament==null?'all':param.enginedisplament},
+             transmission=${param.transmission==null?'all':param.transmission})}"
+            th:text="${indexPage -2}" class="page-link">1</a></li>
+        <li th:if="${(indexPage - 1)>=1}" class="page-item"><a
+            th:href="@{/buy/{page}(page=${indexPage -1}, city=${param.city==null?'all':param.city},
+             make=${param.make==null?'all':param.make}, mileage=${param.mileage==null?'all':param.mileage},
+             enginedisplament=${param.enginedisplament==null?'all':param.enginedisplament},
+             transmission=${param.transmission==null?'all':param.transmission})}"
+            th:text="${indexPage -1}" class="page-link">1</a></li>
+        <li class="active page-item"><a href="#" th:text="${indexPage}" class="page-link">1</a></li>
+        <li th:if="${(indexPage+1)<=searchPageVO.totalPage()}" class="page-item"><a
+            th:href="@{/buy/{page}(page=${indexPage +1}, city=${param.city==null?'all':param.city},
+             make=${param.make==null?'all':param.make}, mileage=${param.mileage==null?'all':param.mileage},
+             enginedisplament=${param.enginedisplament==null?'all':param.enginedisplament},
+             transmission=${param.transmission==null?'all':param.transmission})}" th:text="${indexPage +1}"
+                                                                     class="page-link">1</a></li>
+        <li th:if="${(indexPage+2)<=searchPageVO.totalPage()}" class="page-item"><a
+            th:href="@{/buy/{page}(page=${indexPage +2}, city=${param.city==null?'all':param.city},
+             make=${param.make==null?'all':param.make}, mileage=${param.mileage==null?'all':param.mileage},
+             enginedisplament=${param.enginedisplament==null?'all':param.enginedisplament},
+             transmission=${param.transmission==null?'all':param.transmission})}"
+            th:text="${indexPage +2}" class="page-link">1</a></li>
+        <li th:if="${(indexPage+3)<=searchPageVO.totalPage()}" class="page-item"><a
+            th:href="@{/buy/{page}(page=${indexPage +3}, city=${param.city==null?'all':param.city},
+             make=${param.make==null?'all':param.make}, mileage=${param.mileage==null?'all':param.mileage},
+             enginedisplament=${param.enginedisplament==null?'all':param.enginedisplament},
+             transmission=${param.transmission==null?'all':param.transmission})}"
+            th:text="${indexPage +3}" class="page-link">1</a></li>
+        <li th:class="${(indexPage==searchPageVO.totalPage())?'page-item disabled':'page-item '}">
+          <a class="page-link"
+             th:href="@{/buy/{page}(page=${indexPage +1}, city=${param.city==null?'all':param.city},
+             make=${param.make==null?'all':param.make}, mileage=${param.mileage==null?'all':param.mileage},
+             enginedisplament=${param.enginedisplament==null?'all':param.enginedisplament},
+             transmission=${param.transmission==null?'all':param.transmission})}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer th:replace="fragment::footer"></footer>
+<!-- /.Footer -->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+<style>
+  .car-card-border:hover {
+    border: 1px solid rgba(0, 0, 0, .125);
+  }
+
+  .car-card-border {
+    border: 0;
+  }
+</style>
+
+<script>
+    $(document).ready(function () {
+        // Construct URL object using current browser URL
+        var url = new URL(document.location);
+
+        // Get query parameters object
+        var params = url.searchParams;
+
+        if (params.has("city")) {
+            // Get value of paper
+            var city = params.get("city");
+            // Set it as the dropdown value
+            $("#cityFormSelect").val(city);
+        }
+
+        if (params.has("make")) {
+            // Get value of paper
+            var make = params.get("make");
+            // Set it as the dropdown value
+            $("#makeFormSelect").val(make);
+        }
+
+        if (params.has("mileage")) {
+            // Get value of paper
+            var mileage = params.get("mileage");
+            // Set it as the dropdown value
+            $("#mileageFormSelect").val(mileage);
+        }
+
+        if (params.has("enginedisplament")) {
+            // Get value of paper
+            var enginedisplament = params.get("enginedisplament");
+            // Set it as the dropdown value
+            $("#enginedisplamentFormSelect").val(enginedisplament);
+        }
+
+        if (params.has("transmission")) {
+            // Get value of paper
+            var transmission = params.get("transmission");
+            // Set it as the dropdown value
+            $("#transmissionFormSelect").val(transmission);
+        }
+
+        if (params.has("price")) {
+            // Get value of paper
+            var price = params.get("price");
+            // Set it as the dropdown value
+            $("#priceFormSelect").val(price);
+        }
+    });
+</script>
+</html>

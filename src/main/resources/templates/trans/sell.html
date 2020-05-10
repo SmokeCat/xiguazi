@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Smoke">
+
+  <title>Sell Page</title>
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/modern-business.css}" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav th:replace="fragment::nav"></nav>
+<!-- /.Navigation -->
+
+<!-- Page Content -->
+<div class="container">
+
+  <!-- 卖车表单 -->
+  <div class="row">
+    <div class="col-8 offset-2 mt-5 mb-5">
+      <form th:action="@{/sell}" method="post">
+        <h2 class="mt-3 mb-5">高价卖车，快速估价</h2>
+        <!--            售卖车型-->
+        <div class="form-group row">
+          <label for="carMake" class="col-sm-2 col-form-label">售卖车型</label>
+          <div class="col-sm-5">
+            <select type="text" readonly class="form-control" id="carMake" placeholder="厂商" name="make">
+              <option th:each="item, makeState:${makeMap}" th:value="${makeState.current.key}"
+                      th:text="${makeState.current.value}">大众
+              </option>
+            </select>
+          </div>
+          <div class="col-sm-5">
+            <input type="text" class="form-control" id="model" placeholder="车型" name="model">
+          </div>
+        </div>
+        <!--            售卖城市-->
+        <div class="form-group row">
+          <label for="city" class="col-sm-2 col-form-label">售卖城市</label>
+          <div class="col-sm-10">
+            <select class="form-control" id="city" name="city" readonly>
+              <option th:each="item, cityState:${cityMap}" th:value="${cityState.current.key}"
+                      th:text="${cityState.current.value}">南京</option>
+            </select>
+          </div>
+        </div>
+        <!--          上牌时间-->
+        <div class="form-group row">
+          <label for="plateYear" class="col-sm-2 col-form-label">上牌时间</label>
+          <div class="col-sm-10">
+            <select type="text" readonly class="form-control" id="plateYear" placeholder="年份" name="licensePlateYear">
+              <option value="2020">2020年</option>
+              <option value="2019">2019年</option>
+              <option value="2018">2018年</option>
+              <option value="2017">2017年</option>
+              <option value="2016">2016年</option>
+              <option value="2015">2015年</option>
+              <option value="2014">2014年</option>
+              <option value="2013">2013年</option>
+              <option value="2012">2012年</option>
+              <option value="2011">2011年</option>
+              <option value="2010">2010年</option>
+            </select>
+          </div>
+        </div>
+        <!--          行驶里程-->
+        <div class="form-group row">
+          <label for="plateYear" class="col-sm-2 col-form-label">行驶里程</label>
+          <div class="col-sm-10">
+            <div class="input-group">
+              <input type="number" class="form-control" id="mileage" name="mileage">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">公里</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--          验车时间-->
+        <div class="form-group row">
+          <label for="meetDate" class="col-sm-2 col-form-label">验车时间</label>
+          <div class="col-sm-10">
+            <input type="date" id="meetDate" name="meetDate" class="form-control">
+          </div>
+        </div>
+        <!--          验车地址-->
+        <div class="form-group row">
+          <label for="address" class="col-sm-2 col-form-label">验车地址</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="address" placeholder="验车地址" name="address">
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="submit" name="submit" value="提交">
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer th:replace="fragment::footer"></footer>
+<!-- /.Footer -->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>
