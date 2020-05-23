@@ -8,7 +8,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -33,14 +32,14 @@ public class MobileAuthenticationProvider implements AuthenticationProvider {
         log.debug("phone: " + phone);
         log.debug("password: " + password);
 
-//        获取认证用户
+        //  获取认证用户
         AuthUser userDetails = retrieveUser(phone, (MobileAuthenticationToken) authentication);
 
         if (userDetails == null) {
             throw new InternalAuthenticationServiceException("*Null userdetails");
         }
 
-//        验证密码
+        //  验证密码
         boolean isValid = bCryptPasswordEncoder.matches(password, userDetails.getPassword());
         if (!isValid) {
             throw new BadCredentialsException("密码错误，请重新输入");
@@ -49,10 +48,16 @@ public class MobileAuthenticationProvider implements AuthenticationProvider {
         return createSuccessAuthentication(phone, userDetails);
     }
 
+    /**
+     * 认证用户
+     */
     private AuthUser retrieveUser(String phone, MobileAuthenticationToken authentication) {
         return mobileUserDetailService.loadUserByPhone((String) phone);
     }
 
+    /**
+     * 认证成功，返回封装的token
+     */
     private Authentication createSuccessAuthentication(Object principal, AuthUser user) {
         MobileAuthenticationToken result = new MobileAuthenticationToken(principal, user.getId(), user.getAuthorities());
         return result;

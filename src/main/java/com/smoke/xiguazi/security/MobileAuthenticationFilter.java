@@ -6,10 +6,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public class MobileAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
@@ -17,12 +15,12 @@ public class MobileAuthenticationFilter extends AbstractAuthenticationProcessing
     private final String SPRING_SECURITY_FORM_PASSWORD_KEY = "password";
     private boolean postOnly = true;
 
-    protected MobileAuthenticationFilter(){
+    protected MobileAuthenticationFilter() {
         super(new AntPathRequestMatcher("/login", "POST"));
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException{
         if (postOnly && !request.getMethod().equals("POST")) {
             throw new AuthenticationServiceException("*Authentication method not supported: " + request.getMethod());
         }
